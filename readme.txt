@@ -2,11 +2,10 @@
 Contributors: Inpsyde, Bueltge, nullbyte, hughwillfayle
 Tags: language, multilinguage, multisite
 Requires at least: 3.3
-Tested up to: 3.3
-Stable tag: 0.7.5a
+Tested up to: 3.4-Beta4
+Stable tag: 0.8.1
 
 Multilingual websites with WordPress Multisite
-
 
 == Description ==
 By using the powerful WordPress Multilingual-Press plugin it´s much easier to build multilingual sites and
@@ -18,10 +17,6 @@ and Multilingual-Press will automatically create a duplication of it in the othe
 posts and pages are interlinked and are easily accessible via the post/page editor screen - you can switch 
 back and forth to translate them! Multilingual-Press is WordPress conform, easy to install and doesn't make 
 any changes to the WordPress core. It doesn't harm your website's performance.  
-
-**Currently the plugin is under development; pure alpha. Before using this version of the plugin in your live 
-site, we recommend you to install it in a testing environment and to backup your database and site/blog 
-content**
 
 Please give us feedback, contribute and file technical bugs on 
 [GitHub Repo](https://github.com/inpsyde/multilingual-press).
@@ -44,8 +39,7 @@ We will also have a pro version of this plugin, which includes these additional 
 - global media library for all sites/blogs
 - Dashboard widget in root blog displaying all posts which still have to be translated
 
-**Currently in development**
-
+**Currently in development, but you can test it - write us**
 
 == Installation ==
 = Requirements =
@@ -53,6 +47,8 @@ We will also have a pro version of this plugin, which includes these additional 
 * PHP 5.2*
 
 = Installation =
+ * Use the installer via backend of your install or ...
+
 1. Unpack the download-package
 2. Upload the files to the `/wp-content/plugins/` directory
 3. Activate the plugin through the 'Network/Plugins' menu in WordPress and hit 'Network Activate'
@@ -60,7 +56,6 @@ We will also have a pro version of this plugin, which includes these additional 
    settings for each Site
 
 Help tab for further explanation can be found on the right top of the page.
-
 
 == Screenshots ==
 1. List of Sites in network with new column for interlinked sites
@@ -75,6 +70,7 @@ Help tab for further explanation can be found on the right top of the page.
 this plugin.
 
 * German language files by [ourselves](http://inpsyde.com) ;)
+* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPLv3, you can use it free 
@@ -90,6 +86,29 @@ be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poed
 [Localization](http://wordpress.org/extend/plugins/codestyling-localization/).
 
 == Changelog ==
+
+= 0.8.1 =
+* Adding Plugin Settingspage, Code Cleanup
+* Added check that prevents the use of this plugin in a not-setted blog
+* Codexified several stuff
+* Fixed Missing Table from external Module
+* Added filter for the list, fixed Style
+* Fixed several notices
+* Fixed language key output
+
+= 0.8.0 =
+* Codexified
+* Renamed the files
+* changed textdomain
+* fixed fi_FI language pack
+* fixed several widget bugs ( #10, #13, #18, #22 )
+* Documentation
+* Only load the Widget CSS when widget is used
+* added a check box to the editing view asking whether you want to create the drafts to other languages
+* Translation is availeable for drafts
+* Fixed up JS
+* Blog Checkup for invalid data
+
 = 0.7.5a =
 * Display an admin notice if the plugin was not activated on multisite
 * Set the parent page if this page was also handled by the plugin [Issue 2](https://github.com/inpsyde/multilingual-press/issues/2)

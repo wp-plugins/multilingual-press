@@ -1,8 +1,13 @@
 /**
- * Multilingual Press Admin CSS File
+ * Admin CSS
+ * 
+ * @author		fb, rw, ms, th
+ * @package		mlp
+ * @subpackage	admincss
+ * 
  */
 
-#multilingualpress_settings h3{ 
+#multilingualpress_settings h3 {
 	padding: 7px 10px;
 	margin: 0;
 }

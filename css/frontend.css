@@ -1,8 +1,13 @@
-/** 
- * Multilingual Press Stylesheet
+/**
+ * Frontend CSS
+ * 
+ * @author		fb, rw, ms, th
+ * @package		mlp
+ * @subpackage	frontendcss
+ * 
  */
-
-.mlp_widget ul li{ 
+ 
+.mlp_language_box ul li{ 
 	display: inline;
 	list-style-type: none;
 	margin: 0 5px 0 0;
