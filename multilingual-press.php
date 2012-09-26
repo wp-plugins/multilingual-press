@@ -5,7 +5,7 @@
  * Description: By using the WordPress plugin Multilingual-Press it's much easier to build multilingual sites and run them with WordPress Multisite feature. 
  * Author:      Inpsyde GmbH
  * Author URI:  http://inpsyde.com
- * Version:     0.8.2
+ * Version:     1.0.2
  * Text Domain: multilingualpress
  * Domain Path: /languages
  * License:     GPLv3
@@ -15,7 +15,7 @@
  * WordPress Multisite feature.
  * 
  * @author      fb, rw, ms, th
- * @version     0.8.2
+ * @version     1.0.2
  * @package     mlp
  * @subpackage  main
  * 
@@ -37,6 +37,47 @@
  * 
  * Changelog
  * =================
+ * 
+ * 1.0.2
+ * - Code: Fixed Auto Updater
+ * - Version: Hopping due to some Auto Update Issues
+ * 
+ * 1.0.1
+ * - Code: Fixed Wrong Encoding in different files
+ * - Code: Fixed several warnings, notices and small bugs
+ * - Code: Fixed Auto Updater
+ * - Code: Fixed several Advanced Translator Bugs
+ * - Code: Fixed Post Relationships in Blog Duplicate
+ * 
+ * 1.0
+ * - Feature: Advanced Translator for Posts and Pages
+ * - Feature: Support for Custom Post Types
+ * - Feature: Dashboard Widget
+ * - Feature: Duplicate Blogs
+ * - Feature: Quick Load of new language packs
+ * - Feature: Automatic browser redirection
+ * - Feature: Systemwide Trash
+ * - Feature: Individual backend language user settings
+ * 
+ * 0.9.1
+ * - Using local logo 
+ * 
+ * 0.9
+ * - Feature: Added Demo Module
+ * - Feature: Added sort option to widget
+ * - Feature: Added is_home() to our queries
+ * - Feature: Added mlp_get_interlinked_permalinks
+ * - Feature: Added mlp_get_blog_language
+ * - Code: Fixed Widget
+ * - Code: Fixed several notices
+ * - Code: Fixed Buffer Bug in Settingspage
+ * - Code: Fixed Notices on refresh of the blog settings
+ * - Code: Fixed Column Content
+ * - Code: Fixed Relationship Error Notice
+ * - Code: Better Error Message for blog relationships
+ * - Code: Constant Language Strings
+ * - Code: Added Korean Language
+ * 
  * 0.8.2
  * - PHP 5.2 Fix
  * 
@@ -308,7 +349,8 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 			add_filter( 'wp_ajax_checkup_blogs', array( $this, 'checkup_blog' ) );
 			
 			// Check for errors
-			if ( ! $this->check_for_user_errors() )
+			add_filter( 'all_admin_notices', array( $this, 'check_for_user_errors_admin_notice' ) );
+			if ( TRUE == $this->check_for_user_errors() )
 				return;
 			
 			// Load modules
@@ -443,7 +485,8 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 				'site-info.php',
 				'site-users.php',
 				'site-themes.php',
-				'site-settings.php'
+				'site-settings.php',
+				'settings.php'
 			);
 
 			if ( in_array( $pagenow, $pages ) ) {
@@ -464,9 +507,14 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 		 */
 		public function localize_script() {
 
+			if ( isset( $_GET[ 'id' ] ) )
+				$blog_id = $_GET[ 'id' ];
+			else 
+				$blog_id = 0;
+			
 			$loc = array(
 				'tab_label'						=> __( 'Multilingual Press', $this->get_textdomain() ),
-				'blog_id'						=> intval( $_GET[ 'id' ] ),
+				'blog_id'						=> intval( $blog_id ),
 				'ajax_tab_nonce'				=> wp_create_nonce( 'mlp_tab_nonce' ),
 				'ajax_form_nonce'				=> wp_create_nonce( 'mlp_form_nonce' ),
 				'ajax_select_nonce'				=> wp_create_nonce( 'mlp_select_nonce' ),
@@ -564,7 +612,7 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 				return;
 			
 			// If checkbox is not checked, return
-			if ( 'on' != $_POST[ 'translate_this_post' ] )
+			if ( ! isset( $_POST[ 'translate_this_post' ] ) )
 				return;
 			
 			// Get the post
@@ -773,6 +821,7 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 		 * @return  void
 		 */
 		public function display_meta_box_translate( $post ) {
+			
 			?>
 			<p>
 				<input type="checkbox" id="translate_this_post" name="translate_this_post" />
@@ -1259,26 +1308,54 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 		 * @access	public
 		 * @since	0.8
 		 * @uses	
-		 * @return	void
+		 * @return	boolean
 		 */
 		public function check_for_user_errors() {
 			
-			if ( is_admin() && ! is_network_admin() ) {
-			
-				// Get blogs related to the current blog
-				$all_blogs = get_site_option( 'inpsyde_multilingual', array() );
-				$relationships = get_option( 'inpsyde_multilingual_blog_relationship' );
+			return $this->check_for_errors();
+		}
+		
+		/**
+		 * Checks for errors
+		 *
+		 * @access	public
+		 * @since	0.9
+		 * @uses
+		 * @return	void
+		 */
+		public function check_for_user_errors_admin_notice() {
 				
-				if ( array_key_exists( get_current_blog_id(), $all_blogs ) ) {
-					if ( 2 > count( $relationships ) ) {
-						if ( is_super_admin() ) {
-							?><div class="error"><p><?php _e( 'You didn\'t setup any blog relationships! You have to setup them first to use Multilingual Press.' , $this->get_textdomain() ); ?></p></div><?php
-						}
-						return FALSE;
-					}	
+			if ( TRUE == $this->check_for_errors() ) {
+				?><div class="error"><p><?php _e( 'You didn\'t setup any blog relationships! You have to setup them first to use Multilingual Press. For this, go to Network &raquo; Sites &raquo; and choose a blog to edit. Then go to the tab "Multilingiual Press" and set up the relationships.' , $this->get_textdomain() ); ?></p></div><?php
+			}
+		}
+		
+		/**
+		 * Checks for errors
+		 *
+		 * @access	public
+		 * @since	0.9
+		 * @uses
+		 * @return	boolean
+		 */
+		public function check_for_errors() {
+			
+			if ( defined( 'DOING_AJAX' ) )
+				return FALSE;
+				
+			if ( ! is_admin() && is_network_admin() )
+				return FALSE;
+			
+			// Get blogs related to the current blog
+			$all_blogs = get_site_option( 'inpsyde_multilingual', array() );
+			
+			if ( 2 > count( $all_blogs ) ) {
+				if ( is_super_admin() ) {
+					return TRUE;
 				}
 			}
-			return TRUE;
+						
+			return FALSE;
 		}
 	}
 }

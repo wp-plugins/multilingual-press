@@ -60,6 +60,35 @@ class Mlp_Default_Module extends Multilingual_Press {
 
 		// Use this hook to handle the user input of your modules' blog settings form fields
 		add_filter( 'mlp_blogs_save_fields', array( $this, 'save_blog_settings_form_fields' ) );
+		
+		// Add Little Help
+		add_filter( 'mlp_options_page_add_metabox', array( $this, 'add_settings_metabox' ), 1 );
+	}
+	
+	/**
+	 * Add meta box to the MLP settingspage
+	 *
+	 * @access	public
+	 * @since	0.6
+	 * @uses	add_meta_box
+	 * @return	void
+	 */
+	public function add_settings_metabox() {
+		add_meta_box( 'help_metabox', __( 'Multilingual Press Settings', $this->get_textdomain() ), array( $this, 'draw_settings_help_tab' ), 'settings_page_mlp', 'normal', 'low', TRUE );
+	}
+	
+	/**
+	 * Add meta box to the MLP settingspage
+	 *
+	 * @access	public
+	 * @since	0.6
+	 * @uses	add_meta_box
+	 * @return	void
+	 */
+	public function draw_settings_help_tab() {
+		?>
+		<p><?php _e( 'In Multilingual Press it is possible to develope own modules with own setting boxes right under this box. If you want to know how, see our example module on <a href="https://github.com/inpsyde/multilingual-press">GitHub</a>', $this->get_textdomain() ); ?></p>
+		<?php
 	}
 
 	/**
@@ -169,6 +198,7 @@ class Mlp_Default_Module extends Multilingual_Press {
 						<th><?php _e( 'Multilingual blog relationships', $this->get_textdomain() ) ?></th>
 						<td>
 							<?php
+							
 							foreach ( $siteoption as $blog_id => $meta ) {
 					
 								// Filter out current blog
@@ -177,7 +207,7 @@ class Mlp_Default_Module extends Multilingual_Press {
 					
 								// Get blog display name
 								switch_to_blog( $blog_id );
-								$blog_name = get_bloginfo( 'name' );
+								$blog_name = get_bloginfo( 'Name' );
 								restore_current_blog();
 					
 								// Get current settings
@@ -186,8 +216,12 @@ class Mlp_Default_Module extends Multilingual_Press {
 									$selected = 'checked="checked"';
 								else
 									$selected = '';
+								
+								if ( ! isset( $lang_codes[ $meta[ 'lang' ] ] ) )
+									$lang_codes[ $meta[ 'lang' ] ] = __( 'English (US)', $this->get_textdomain() );
+								
 								?>
-								<input id="related_blog_<?php echo $blog_id; ?>" <?php echo $selected; ?> type="checkbox" name="related_blogs[]" value="<?php echo $blog_id ?>" /> <?php echo $blog_name; ?> - <?php echo substr( $meta[ 'lang' ], 0, 2 ); ?> - <?php echo $meta[ 'text' ] ?><br />
+								<input id="related_blog_<?php echo $blog_id; ?>" <?php echo $selected; ?> type="checkbox" name="related_blogs[]" value="<?php echo $blog_id ?>" /> <?php echo $blog_name; ?> - <?php echo $lang_codes[ $meta[ 'lang' ] ]; ?><br />
 								<?php
 							}
 							?>
@@ -210,12 +244,13 @@ class Mlp_Default_Module extends Multilingual_Press {
 	 * @return	void
 	 */
 	public function save_blog_settings_form_fields( $data ) {
-
+		
 		$current_blog_id = intval( $data[ 'id' ] );
 
 		// Language and descriptions
 		$siteoption = get_site_option( 'inpsyde_multilingual' );
 		unset( $siteoption[ $current_blog_id ] );
+		
 		if ( '' != $data[ 'inpsyde_multilingual_lang' ] || '' != $data[ 'inpsyde_multilingual' ] ) {
 
 			if ( ! is_array( $siteoption ) )
@@ -248,6 +283,11 @@ class Mlp_Default_Module extends Multilingual_Press {
 		foreach ( $all_blogs as $blog_id => $blog_data ) {
 
 			if ( $current_blog_id == $blog_id )
+				continue;
+			
+			// Check if current blog is valid
+			$blog_details = get_blog_details( $blog_id );
+			if ( FALSE == $blog_details )
 				continue;
 
 			// 1. Get related blogs' current relationships 
@@ -362,13 +402,12 @@ class Mlp_Default_Module extends Multilingual_Press {
 	public function load_lang_codes( $lang_codes ) {
 
 		$obsolete_shortcodes = array( 
-			'fr', 'es', 'bg', 'it', 'da', 'de', 'gl', 'hu', 'is', 'id', 'kr', 'ky', 'mg', 'mk', 'ml', 'en',
+			'fr', 'es', 'bg', 'it', 'da', 'de', 'gl', 'hu', 'is', 'id', 'ky', 'mg', 'mk', 'ml', 'en',
 			'bs', 'ne', 'no', 'pa', 'pl', 'pt', 'ro', 'ru', 'sa', 'sd', 'si', 'sk', 'sl', 'so', 'sr', 'sv',
 			'tr', 'ug', 'uz', 'bn', 'cs', 'ms', 'my'
 		);
-		foreach ( $obsolete_shortcodes AS $os ) {
+		foreach ( $obsolete_shortcodes AS $os )
 			unset( $lang_codes[ $os ] );
-		}
 
 		$lang_codes[ 'fa_IR' ] =	__( 'Persian', $this->get_textdomain() );
 		$lang_codes[ 'zh_TW' ] =	__( 'Simplified Chinese (Taiwan)', $this->get_textdomain() );
@@ -430,6 +469,7 @@ class Mlp_Default_Module extends Multilingual_Press {
 		$lang_codes[ 'ru_RU' ] =	__( 'Russian', $this->get_textdomain() );
 		$lang_codes[ 'sa_IN' ] =	__( 'Sanskrit', $this->get_textdomain() );
 		$lang_codes[ 'sd_PK' ] =	__( 'Sindhi', $this->get_textdomain() );
+		$lang_codes[ 'kr' ] =	__( 'Korean (Johab)', $this->get_textdomain() );
 
 		// Sort them according to
 		// language name
