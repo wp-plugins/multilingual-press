@@ -39,7 +39,9 @@ We will also have a pro version of this plugin, which includes these additional 
 - global media library for all sites/blogs
 - Dashboard widget in root blog displaying all posts which still have to be translated
 
-**Currently in development, but you can test it - write us**
+**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
+
+Have a look at the premium plugins in our [market](http://marketpress.com).
 
 == Installation ==
 = Requirements =
