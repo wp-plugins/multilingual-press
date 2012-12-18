@@ -2,7 +2,7 @@
 Contributors: Inpsyde, Bueltge, nullbyte, hughwillfayle
 Tags: language, multilinguage, multisite
 Requires at least: 3.3
-Tested up to: 3.4.2
+Tested up to: 3.5-RC4
 Stable tag: 1.0.2
 
 Multilingual websites with WordPress Multisite
@@ -19,7 +19,7 @@ back and forth to translate them! Multilingual-Press is WordPress conform, easy 
 any changes to the WordPress core. It doesn't harm your website's performance.  
 
 = doodleinnovation =
-We supporten plugin authors in their free time, the free plugins. Please have a little patience and ask friendly, businesslike.
+We Plugin authors support in their leisure time our free Plugins. Please understand that we can't respond immediately. Please have a little patience and ask friendly, businesslike.
 
 Please give us feedback, contribute and file technical bugs on 
 [GitHub Repo](https://github.com/inpsyde/multilingual-press).
@@ -42,9 +42,7 @@ We will also have a pro version of this plugin, which includes these additional 
 - global media library for all sites/blogs
 - Dashboard widget in root blog displaying all posts which still have to be translated
 
-**Made by [Inpsyde](http://inpsyde.com) &middot; We love WordPress**
-
-Have a look at the premium plugins in our [market](http://marketpress.com).
+**Currently in development, but you can test it - write us**
 
 == Installation ==
 = Requirements =
