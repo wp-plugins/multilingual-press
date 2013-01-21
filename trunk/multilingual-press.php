@@ -5,7 +5,7 @@
  * Description: By using the WordPress plugin Multilingual-Press it's much easier to build multilingual sites and run them with WordPress Multisite feature. 
  * Author:      Inpsyde GmbH
  * Author URI:  http://inpsyde.com
- * Version:     1.0.2
+ * Version:     1.0.3
  * Text Domain: multilingualpress
  * Domain Path: /languages
  * License:     GPLv3
@@ -38,6 +38,30 @@
  * Changelog
  * =================
  * 
+ * 1.0.3
+ * - Code: Auto Updater Improvements
+ * - Code: Fixed Feature Loader
+ * - Removed link to blog posts on is_home()
+ * - Removed static ?noredirect parameter
+ * - Added modern greek as language
+ * - Added private posts for translations
+ * - Added parameter handling for mlp_show_linked_elements template function
+ * - Added parameter show_current_blog on mlp_show_linked_elements template function
+ * - Added show current blog at the MLP Widget 
+ * - Added hook for checkbox "translate this post"
+ * - Added hook to change the default meta box
+ * - Added hook to change the link to the blog
+ * - Changed admin_url into network_admin_url
+ * - Redirect Feature: Added better check for session_start
+ * - Redirect Feature: Added redirect on is_home()
+ * - Redirect Feature: Added ?noredirect link with core plugin hook
+ * - Redirect Feature: Added english as browser language
+ * - Quicklink Feature: Added blog language to quicklink
+ * - Dashboard Widget: Fixed "This post is translated" checkbox
+ * - Advanced Translator: Removed default metabox when  feature is active
+ * - Added Feature: Default Actions
+ * - Autoupdate Feature: Removed autoupdate module from module list
+ *  
  * 1.0.2
  * - Code: Fixed Auto Updater
  * - Version: Hopping due to some Auto Update Issues
@@ -354,7 +378,7 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 				return;
 			
 			// Load modules
-			add_filter( 'plugins_loaded', array( $this, 'load_modules' ), 9 );
+			$this->load_modules();
 			
 			// Does another plugin offer its own save method?
 			$external_save_method = apply_filters( 'inpsyde_multilingualpress_external_save_method', FALSE );
@@ -362,7 +386,8 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 				add_filter( 'save_post', array( $this, 'save_post' ) );
 			
 			// Add the meta box
-			add_filter( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
+			$get_metabox_handler = apply_filters( 'inpsyde_multilingualpress_get_metabox_handler', array( $this, 'add_meta_boxes' ) );
+			add_filter( 'add_meta_boxes', $get_metabox_handler );
 		}
 		
 		/**
@@ -598,7 +623,7 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 
 			// We're only interested in published posts at this time
 			$post_status = get_post_status( $post_id );
-			if ( 'publish' !== $post_status && 'draft' !== $post_status )
+			if ( 'publish' !== $post_status && 'draft' !== $post_status && 'private' !== $post_status )
 				return;
 
 			// Avoid recursion:
@@ -741,14 +766,14 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 			// Do we have linked elements?
 			$linked = mlp_get_linked_elements( $post->ID );
 			if ( ! $linked ) {
-				add_meta_box( 'multilingual_press_translate', __( 'Multilingal Press: Translate Post', $this->get_textdomain() ), array( $this, 'display_meta_box_translate' ), 'post', 'normal', 'high' );
-				add_meta_box( 'multilingual_press_translate', __( 'Multilingal Press: Translate Page', $this->get_textdomain() ), array( $this, 'display_meta_box_translate' ), 'page', 'normal', 'high' );
+				add_meta_box( 'multilingual_press_translate', __( 'Multilingual Press: Translate Post', $this->get_textdomain() ), array( $this, 'display_meta_box_translate' ), 'post', 'normal', 'high' );
+				add_meta_box( 'multilingual_press_translate', __( 'Multilingual Press: Translate Page', $this->get_textdomain() ), array( $this, 'display_meta_box_translate' ), 'page', 'normal', 'high' );
 				return;
 			}
 			
 			// Register metaboxes
-			add_meta_box( 'multilingual_press_link', __( 'Multilingal Press: Linked posts', $this->get_textdomain() ), array( $this, 'display_meta_box' ), 'post', 'normal', 'high' );
-			add_meta_box( 'multilingual_press_link', __( 'Multilingal Press: Linked pages', $this->get_textdomain() ), array( $this, 'display_meta_box' ), 'page', 'normal', 'high' );
+			add_meta_box( 'multilingual_press_link', __( 'Multilingual Press: Linked posts', $this->get_textdomain() ), array( $this, 'display_meta_box' ), 'post', 'normal', 'high' );
+			add_meta_box( 'multilingual_press_link', __( 'Multilingual Press: Linked pages', $this->get_textdomain() ), array( $this, 'display_meta_box' ), 'page', 'normal', 'high' );
 		}
 
 		/**
@@ -824,7 +849,7 @@ if ( ! class_exists( 'Multilingual_Press' ) ) {
 			
 			?>
 			<p>
-				<input type="checkbox" id="translate_this_post" name="translate_this_post" />
+				<input type="checkbox" id="translate_this_post" name="translate_this_post" <?php checked( TRUE, apply_filters( 'inpsyde_multilingualpress_translate_this_post_checkbox', FALSE ) ); ?> />
 				<label for="translate_this_post"><?php _e( 'Translate this post', $this->get_textdomain() ); ?></label>
 			</p>
 			<?php
