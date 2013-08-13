@@ -4,7 +4,7 @@ Tags: l10n, i18n, bilingual, international, internationalization, lang, language
 
 Requires at least: 3.5
 Tested up to: 3.6
-Stable tag: 1.1
+Stable tag: 1.0.3
 
 Multilingual websites with WordPress Multisite
 
@@ -36,7 +36,7 @@ Our [pro-version](http://marketpress.com/product/multilingual-press-pro/) offers
 save your time and to improve your work flow and user experience:
 
 - Support for custom post types.
-- Automatic redirect to the user's preferred language version of a post.
+- Automatically redirect to the user's preferred language version of a post.
 - Edit all translations for a post from the original post editor without the need to switch sites.
 - Duplicate blogs. Use one blog as template for new blogs, copy *everything:* Posts, attachments, 
   settings for plugins and themes, navigation menus, categories, tags and custom taxonomies.
@@ -50,7 +50,7 @@ save your time and to improve your work flow and user experience:
 == Installation ==
 
 = Requirements =
-* WordPress Multisite 3.3+
+* WordPress Multisite 3.6+
 * PHP 5.2*, newer PHP versions will work faster.
 
 = Installation =
@@ -73,15 +73,9 @@ Help tab for further explanation can be found on the right top of the page.
 
 
 == Other Notes ==
-= Acknowledgements =
-**Thanks to** different customer for trust in our know how and suggestion and release of solutions in
-this plugin.
-
-* German language files by [ourselves](http://inpsyde.com) ;)
-* Lithuanian translation files by [Vincent G](http://www.host1plus.com)
 
 = Licence =
-Good news, this plugin is free for everyone! Since it's released under the GPLv3, you can use it free
+Good news, this plugin is free for everyone! It is released under the GPLv3, you can use it free
 of charge on your personal or commercial blog.
 
 = Translations =
