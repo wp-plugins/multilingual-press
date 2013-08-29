@@ -90,6 +90,9 @@ be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poed
 
 == Changelog ==
 
+= 1.1.1 =
+- Fix incorrect URLs when front page is set as static page or custom post type.
+
 = 1.1 =
 - Better data handling during setup of post relationships.
 - Fixed wrong links in widget on the front page.
