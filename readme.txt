@@ -1,8 +1,8 @@
-=== Multilingual Press ===
+=== Multilingual Press Free ===
 Contributors: Inpsyde, Bueltge, nullbyte, hughwillfayle, paddelboot, toscho
 Tags: l10n, i18n, bilingual, international, internationalization, lang, language, localization,  multilanguage, multi language, multilingual, multi lingual, multisite, switcher, translation, website translation, wordpress translation, chinese, german, french, russian, widget
 
-Requires at least: 3.5
+Requires at least: 3.6
 Tested up to: 3.6
 Stable tag: 1.1.1
 
