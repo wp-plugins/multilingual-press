@@ -96,6 +96,23 @@ access to your content after the plugin deactivation.
 
 == Changelog ==
 
+= 2.0.3 =
+
+- Show current site in mlp_get_available_languages_titles() with proper
+  language name.
+
+= 2.0.2 =
+
+- Changes to the Pro version only, skipped in the free version.
+
+= 2.0.1 =
+
+- Extend return value of `Mlp_Helpers::get_blog_language()`: `lang` and
+  `language_short` return just the first part of a language tag, `language_long`
+  the complete language tag.
+- Make `get_available_languages_titles()` use the correct source.
+- Remove `language-list.php`.
+
 = 2.0.0 =
 
 - Code refactoring
