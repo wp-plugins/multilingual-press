@@ -1,10 +1,11 @@
-=== Multilingual Press ===
+=== MultilingualPress ===
+
 Contributors: inpsyde, toscho, Bueltge, nullbyte, hughwillfayle, paddelboot
 Tags: l10n, i18n, bilingual, international, internationalization, lang, language, localization,  multilanguage, multi language, multilingual, multi lingual, multisite, switcher, translation, website translation, wordpress translation, chinese, german, french, russian, widget, menu, navigation, network, categories, taxonomy
 
 Requires at least: 3.8
 Tested up to: 4.0
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 
 Create networks with multiple languages
 
