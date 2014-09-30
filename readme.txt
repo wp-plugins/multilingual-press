@@ -105,7 +105,7 @@ access to your content after the plugin deactivation.
 - Fixed autoloading with `glob()` on Solaris systems.
 - Fixed database error when upgrading from a preview version of the 2.1 branch.
 - Custom flags are now fetched from the correct site.
-- Built-in flag icons are checked on the file system before we return an URL fro them.
+- Built-in flag icons are checked on the file system before we return an URL for them.
 - Language switcher widget is now visible for all users.
 - Improved description of the widget options.
 - Search pages are translated correctly.
