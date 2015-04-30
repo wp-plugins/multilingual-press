@@ -2,8 +2,8 @@
 Contributors: inpsyde, toscho, Bueltge, nullbyte, hughwillfayle, paddelboot
 Tags: l10n, i18n, bilingual, international, internationalization, lang, language, localization,  multilanguage, multi language, multilingual, multi lingual, multisite, switcher, translation, website translation, wordpress translation, chinese, german, french, russian, widget, menu, navigation, network, categories, taxonomy
 
-Requires at least: 3.8
-Tested up to: 4.0
+Requires at least: 4.0
+Tested up to: 4.2
 Stable tag: 2.1.2
 
 Create networks with multiple languages
@@ -25,8 +25,6 @@ When you disable our plugin, all sites will still work as separate sites without
 any data-loss or garbage output.
 
 Our **Language Manager** offers 174 languages, and you can edit them.
-
-**Translate our plugin, and get a free Pro license!** Please contact our lead developer @toscho before you start: `t.scholz` at `inpsyde.com`.
 
 We cannot guarantee free ad hoc support. Please be patient, we are a small team.
 You can follow our progress and development notices on our
@@ -64,7 +62,7 @@ save your time and to improve your work flow and user experience:
 == Installation ==
 
 = Requirements =
-* WordPress Multisite 3.4+
+* WordPress Multisite 4.0+
 * PHP 5.2.4, newer PHP versions will work faster.
 
 Use the installer via back-end of your install or ...
